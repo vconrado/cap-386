@@ -1,0 +1,6 @@
+lecture-notes/*
+*.o
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
