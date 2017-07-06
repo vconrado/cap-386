@@ -123,3 +123,48 @@ ex3-vec
 ### What does stringsAsFactors=FALSE in read.csv() do? Why do we need it? (see Lecture02/06-DataFrames).
 
 Este atributo indica que as colunas do tipo *string* não devem ser convertidas para o tipo **factor**. Para evitar que as strings sejam convertidas para **factor**, o que pode gerar situações não desejadas, como a mudança na ordenação dos dados.
+
+2. Baltimore Rainfall
+---------------------
+
+The average monthly rainfall in Baltimore is, in inches:
+
+``` r
+baltimoreRainfall_in <- c(3.47, 3.02, 3.93, 3.00, 3.89, 3.43, 3.85, 3.74, 3.98, 3.16, 3.12, 3.35)
+```
+
+The average monthly rainfallin Baltimore is, in millimeters:
+
+``` r
+baltimoreRainfall_mm <- baltimoreRainfall_in*25.4
+baltimoreRainfall_mm
+```
+
+    ##  [1]  88.138  76.708  99.822  76.200  98.806  87.122  97.790  94.996
+    ##  [9] 101.092  80.264  79.248  85.090
+
+Labeled values:
+
+``` r
+months <- c("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec")
+names(baltimoreRainfall_mm) <- months
+baltimoreRainfall_mm
+```
+
+    ##     Jan     Feb     Mar     Apr     May     Jun     Jul     Aug     Sep 
+    ##  88.138  76.708  99.822  76.200  98.806  87.122  97.790  94.996 101.092 
+    ##     Oct     Nov     Dec 
+    ##  80.264  79.248  85.090
+
+Average, Minimum and Maximum:
+
+``` r
+statsBaltimoreRaionFall <- data.frame(
+        Average=mean(baltimoreRainfall_mm),
+        Minimum=min(baltimoreRainfall_mm),
+        Maximum=max(baltimoreRainfall_mm))
+statsBaltimoreRaionFall
+```
+
+    ##   Average Minimum Maximum
+    ## 1  88.773    76.2 101.092
