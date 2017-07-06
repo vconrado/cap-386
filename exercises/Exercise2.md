@@ -1,10 +1,13 @@
 Exercise 2
 ================
 
-1. Understanding and Fixing Code
---------------------------------
+-   [1. Understanding and Fixing Code](#understanding-and-fixing-code)
+-   [2. Baltimore Rainfall](#baltimore-rainfall)
 
-### Fix the part of the code that shows the cold months in Baltimore (Lecture02/02-PrimitiveTypes) so we know which are those months.
+1. Understanding and Fixing Code
+================================
+
+> Fix the part of the code that shows the cold months in Baltimore (Lecture02/02-PrimitiveTypes) so we know which are those months.
 
 ``` r
 tempLo <- c(23.5,26.1,33.6,42.0,51.8,60.8,65.8,63.9,56.6,43.7,34.7,27.3)
@@ -16,7 +19,7 @@ tempLo
     ##  Jan  Feb  Mar  Apr  May  Jun  Jul  Aug  Sep  Oct  Nov  Dec 
     ## 23.5 26.1 33.6 42.0 51.8 60.8 65.8 63.9 56.6 43.7 34.7 27.3
 
-### What would happen if we still had a NA on the vector for the temperatures in SJC? (Lecture02/05-Factors)?
+> What would happen if we still had a NA on the vector for the temperatures in SJC? (Lecture02/05-Factors)?
 
 ``` r
 tempLo2 <- tempLo
@@ -46,7 +49,7 @@ cut(tempLo2,
 
 O Valor **NA** continua existindo no vetor quando ele é convertido (ou produzido) para **factor**.
 
-### What happens if we try to run sjcTemps\["Jan":"Jul",c(1,3)\]? Why? (see Lecture02/06-DataFrames).
+> What happens if we try to run sjcTemps\["Jan":"Jul",c(1,3)\]? Why? (see Lecture02/06-DataFrames).
 
 Não é possível acessar os dados desta forma, pois *"Jan":"Jul"* não é válido no **R**.
 
@@ -77,7 +80,7 @@ sjcTemps[c("Jan","Jul"),c(1,3)]
     ## Jan 29.7 16.2
     ## Jul 24.1  8.2
 
-### We can change Data Frames with sjcTemps3\["Aug",\] &lt;- c(1,2,3) and sjcTemps3\["Jul",\] &lt;- sjcTemps3\["Jul",\]+c(3,4) but we cannot change with sjcTemps3\["Jul",\] &lt;- c(3,4). Why? (see Lecture02/06-DataFrames)
+> We can change Data Frames with sjcTemps3\["Aug",\] &lt;- c(1,2,3) and sjcTemps3\["Jul",\] &lt;- sjcTemps3\["Jul",\]+c(3,4) but we cannot change with sjcTemps3\["Jul",\] &lt;- c(3,4). Why? (see Lecture02/06-DataFrames)
 
 Aparentemente, regra de reciclagem (*Recycling Rule*) é aplicada na operação entre os vetores e não na operação de atribuição.
 
@@ -90,7 +93,7 @@ sjcTemps3["Jul",]   <-  c(3,4)
 
     ## Error in `[<-.data.frame`(`*tmp*`, "Jul", , value = c(3, 4)): replacement has 2 items, need 3
 
-### Run some examples that show that the recycling rule reuses the smaller (shorter) vector
+> Run some examples that show that the recycling rule reuses the smaller (shorter) vector
 
 ``` r
 vec <- c(0,1,2,3,4,5,6,7,8,9)
@@ -120,14 +123,14 @@ ex3-vec
 
     ##  [1] 1 2 3 1 2 3 1 2 3 1
 
-### What does stringsAsFactors=FALSE in read.csv() do? Why do we need it? (see Lecture02/06-DataFrames).
+> What does stringsAsFactors=FALSE in read.csv() do? Why do we need it? (see Lecture02/06-DataFrames).
 
 Este atributo indica que as colunas do tipo *string* não devem ser convertidas para o tipo **factor**. Para evitar que as strings sejam convertidas para **factor**, o que pode gerar situações não desejadas, como a mudança na ordenação dos dados.
 
 2. Baltimore Rainfall
----------------------
+=====================
 
-The average monthly rainfall in Baltimore is, in inches:
+> The average monthly rainfall in Baltimore is, in inches:
 
 ``` r
 baltimoreRainfall_in <- c(3.47, 3.02, 3.93, 3.00, 3.89, 3.43, 3.85, 3.74, 3.98, 3.16, 3.12, 3.35)
