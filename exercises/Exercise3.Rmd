@@ -1,0 +1,94 @@
+---
+title: "Exercise 3"
+output:   
+  github_document:
+    toc: true
+    toc_depth: 3
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Preparando o ambiente
+ Cria diretorio para guardar dados temporario
+
+```{r error=TRUE}
+orig <- getwd()
+setwd("/home/vconrado/doutorado/disciplinas/CAP-386/vconrado/cap-386/exercises")
+if (!file.exists("./TempData")) {
+      dir.create("../TempData")  
+}
+```
+Baixa arquivo de dados de vendedores de Baltimore
+```{r error=TRUE}
+bVendorsURL <- "https://data.baltimorecity.gov/api/views/bqw3-z52q/rows.csv?accessType=DOWNLOAD"
+fileName <- "../TempData/bVendors.csv"
+if (!file.exists(fileName)) {
+  download.file(bVendorsURL,destfile = fileName,method="curl")
+  if (file.exists(fileName)) {
+    tam <- file.info(fileName)$size
+    paste("File downloaded, ",tam," bytes")
+  } else {
+    "Error downloading file!"
+  }
+}
+
+```
+
+Carregando os dados do csv para o dataframe e limpanho variaveis não uteis
+```{r error=TRUE}
+bVendors <- read.csv(file=fileName, header=TRUE, sep=",", stringsAsFactors=FALSE)
+bVendors$Id <- NULL
+bVendors$Cart_Descr <- NULL
+bVendors$St <- NULL
+names(bVendors)[names(bVendors) == "Location.1"] <- "location"
+
+```
+
+# Exercicios 
+## The	“hotdog” variable for	the	“Hot	Dogs	in	Baltimore”	example	can	be	better	defined
+
+```{r error=TRUE}
+searchItem="Hot dog|franks"
+bVendors$hotdog <- grepl(searchItem,ignore.case = TRUE, bVendors$ItemsSold)
+head(subset(bVendors, select = c(ItemsSold,hotdog)))
+```
+
+## I	prefer Pizza
+
+```{r error=TRUE}
+searchItem="pizza"
+bVendors$pizza <- grepl(searchItem,ignore.case = TRUE, bVendors$ItemsSold)
+head(subset(bVendors, select = c(ItemsSold,pizza)))
+```
+
+## Get	the	name	of	the	town	for	the	“Hot	Dogs	in	Baltimore”	example.
+
+### Da maneira 'fácil'
+```{r error=TRUE}
+gsub(".{6}$","",unlist(strsplit(bVendors$location,"\n"))[seq(1,nrow(bVendors),2)])
+```
+
+### Passo a passo:
+Separa os nomes do lat-lon
+```{r error=TRUE}
+splitedBVendors<-unlist(strsplit(bVendors$location,"\n"))
+head(splitedBVendors)
+```
+Pega somente os elementos nas posições ímpares (o formato está "Cidade1" "LatLon1" "Cidade2" "LatLon2" ...)
+```{r error=TRUE}
+splitedBVendors=splitedBVendors[seq(1,nrow(bVendors),2)]
+splitedBVendors
+```
+Retira o ZIP code da string (últimos 6 caracteres)
+```{r error=TRUE}
+gsub(".{6}$","",splitedBVendors)
+```
+
+# Limpando a casa
+
+```{r error=TRUE}
+setwd(orig)
+```
