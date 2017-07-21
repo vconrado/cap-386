@@ -1,4 +1,4 @@
-lecture-notes/*
+lecture-notes/*.pdf
 *.o
 .Rproj.user
 .Rhistory
