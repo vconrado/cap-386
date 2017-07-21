@@ -15,7 +15,7 @@ for row in csvreader:
     vendors.append(row)
 fcsv.close()
 
-pattern = re.compile(r"\((-?\d+\.\d+), (-?\d+\.\d+)\)")
+pattern = re.compile(r"\((-?\d+\.?\d*), (-?\d+\.\d+)\)")
 for vendor in vendors:
     location = vendor['Location 1']
     lat_lon = re.search(pattern, location).groups()

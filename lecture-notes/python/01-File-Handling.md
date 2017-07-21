@@ -20,9 +20,11 @@ f = open('file1.txt', 'r')
 
 print f
 f.close()
+print f
 ```
 
-    <open file 'file1.txt', mode 'r' at 0x7fe9b4d66ae0>
+    <open file 'file1.txt', mode 'r' at 0x7fb7d03f6270>
+    <closed file 'file1.txt', mode 'r' at 0x7fb7d03f6270>
 
 
 ### Reading a file
@@ -118,7 +120,7 @@ To write something to a file, use:
 ```python
 f = open('file2.txt', 'w')
 
-f.write('Introduction to Data Science !!!')
+f.write('Introduction to Data Science 2!!!')
 f.close() 
 ```
 
@@ -191,16 +193,7 @@ To close a file, use:
 f = open('file3.txt', 'w+')
 # do something 
 f.close()
-
-f
 ```
-
-
-
-
-    <closed file 'file3.txt', mode 'w+' at 0x7fe9b4d66b70>
-
-
 
 To check if a file is closed, use:
 

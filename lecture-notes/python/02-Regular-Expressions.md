@@ -13,11 +13,19 @@ Verificando se uma string existe em outra:
 import re
  
 name = 'Edgar Allan Poe'
-if re.search(r'Allan', name):
+if re.search('Allan', name):
     print 'Achou'
+re.search('Allan', name)
 ```
 
     Achou
+
+
+
+
+
+    <_sre.SRE_Match at 0x7fa21c2b9f38>
+
 
 
 Recomenda-se o uso do **compile** quando o padrão for usado várias vezes:
@@ -32,17 +40,14 @@ names = ("Edgar Allan Poe","Edgar Rice Burroughs","Alanis Morissette","Allan Qua
 for name in names:
     if re.search(pattern, name):
         print('Achou em {}'.format(name))
+        
+print type(pattern)
 ```
 
     Achou em Edgar Allan Poe
     Achou em Allan Quatermain
+    <type '_sre.SRE_Pattern'>
 
-
-
-```python
-if re.search("^Allan", 'Edgar Poe'):
-    print 'Achou'
-```
 
 ## Caracteres especiais
 
@@ -163,7 +168,7 @@ re.search(pattern, 'Edgar Allan Poe')
 
 
 
-    <_sre.SRE_Match at 0x7f38b0213648>
+    <_sre.SRE_Match at 0x7fa21c2c1370>
 
 
 
@@ -203,7 +208,7 @@ re.search(pattern, 'Edgar Allan Poe') # Match
 
 
 
-    <_sre.SRE_Match at 0x7f38b02137e8>
+    <_sre.SRE_Match at 0x7fa21c2c15e0>
 
 
 
@@ -216,7 +221,7 @@ re.search(pattern, 'Edgar Allan Poe') # Match
 
 
 
-    <_sre.SRE_Match at 0x7f38b0213850>
+    <_sre.SRE_Match at 0x7fa21c2c1510>
 
 
 
@@ -231,7 +236,7 @@ re.search(pattern, 'Edgar Allan Poe') # Match
 
 
 
-    <_sre.SRE_Match at 0x7f38b0213920>
+    <_sre.SRE_Match at 0x7fa21c2c1718>
 
 
 
@@ -241,7 +246,7 @@ pattern = re.compile("Edi+gar")
 re.search(pattern, 'Edgar Allan Poe') # No match
 ```
 
-O carácter **+** representa "procure por 0 ou 1 repetição".
+O carácter **?** representa "procure por 0 ou 1 repetição".
 
 
 ```python
@@ -252,7 +257,7 @@ re.search(pattern, 'Edgar Allan Poe') # Match
 
 
 
-    <_sre.SRE_Match at 0x7f38b02139f0>
+    <_sre.SRE_Match at 0x7fa21c2c1850>
 
 
 
@@ -265,7 +270,7 @@ re.search(pattern, 'Edgar Allan Poe') # Match
 
 
 
-    <_sre.SRE_Match at 0x7f38b0213bf8>
+    <_sre.SRE_Match at 0x7fa21c2c1920>
 
 
 
@@ -329,7 +334,7 @@ re.search(pattern, 'Alanis Morissette') # Match
 
 
 
-    <_sre.SRE_Match at 0x7f38b0213b28>
+    <_sre.SRE_Match at 0x7fa21c2c1780>
 
 
 
@@ -341,7 +346,7 @@ re.search(pattern, 'Alanis Morisette') # Match
 
 
 
-    <_sre.SRE_Match at 0x7f38b0213e68>
+    <_sre.SRE_Match at 0x7fa21c2c1b90>
 
 
 
@@ -356,7 +361,7 @@ re.search(pattern, 'Alanis Morissette') # Match
 
 
 
-    <_sre.SRE_Match at 0x7f38b0213f38>
+    <_sre.SRE_Match at 0x7fa21c2c1cc8>
 
 
 
@@ -373,7 +378,7 @@ re.search(pattern, 'Alanis Morissssssette') # Match
 
 
 
-    <_sre.SRE_Match at 0x7f38b022d100>
+    <_sre.SRE_Match at 0x7fa21c2c1e00>
 
 
 
@@ -384,13 +389,13 @@ O carácter **|** apenas significa OU. Por exemplo, usar "Allan|Alan" significa 
 
 ```python
 pattern = re.compile("Allan|Alan")
-re.search(pattern, 'Edgar Allan Poe') # Match
+re.search(pattern, 'Edgar Alan Poe') # Match
 ```
 
 
 
 
-    <_sre.SRE_Match at 0x7f38b022d1d0>
+    <_sre.SRE_Match at 0x7fa21c2c1ed0>
 
 
 
@@ -401,25 +406,25 @@ re.search(pattern, 'Edgar Allan Poe') # Match
 
 
 ```python
-re.findall("(\d+)","Idadae: 10, Peso: 20")
+re.findall("(\d+)","Idade: 10, Peso: 20.3")
 ```
 
 
 
 
-    ['10', '20']
+    ['10', '20', '3']
 
 
 
 
 ```python
-re.findall("(\D+)","Idadae: 10, Peso: 20")
+re.findall("(\D+)","Idade: 10, Peso: 20")
 ```
 
 
 
 
-    ['Idadae: ', ', Peso: ']
+    ['Idade: ', ', Peso: ']
 
 
 
@@ -427,7 +432,7 @@ re.findall("(\D+)","Idadae: 10, Peso: 20")
 
 
 ```python
-re.findall("(\s)","Idadae: 10, Peso: 20")
+re.findall("(\s)","Idade: 10, Peso: 20")
 ```
 
 
@@ -442,19 +447,19 @@ re.findall("(\s)","Idadae: 10, Peso: 20")
 
 
 ```python
-re.findall("(\w+)","Idadae: 10, Peso: 20")
+re.findall("(\w+)","Idade: 10, Peso: 20")
 ```
 
 
 
 
-    ['Idadae', '10', 'Peso', '20']
+    ['Idade', '10', 'Peso', '20']
 
 
 
 
 ```python
-re.findall("(\W)","Idadae: 10, Peso: 20")
+re.findall("(\W)","Idade: 10, Peso: 20")
 ```
 
 
@@ -464,7 +469,7 @@ re.findall("(\W)","Idadae: 10, Peso: 20")
 
 
 
-### search() vs match
+### search() vs match()
 
 
 Python oferece duas operações básicas para fazer o casamento com expressões regulares: 
@@ -476,12 +481,18 @@ Fonte: [search() vs match()](https://docs.python.org/2/library/re.html#search-vs
 
 ```python
 re.match("c", "abcdef")    # No match
+```
+
+
+```python
 re.search("c", "abcdef")   # Match
 ```
 
 
 
 
-    <_sre.SRE_Match at 0x7f38b022d440>
+    <_sre.SRE_Match at 0x7fa21c2cf1d0>
 
 
+
+Este [site](https://regex101.com/) permite testar expressões regulares com visualização.
