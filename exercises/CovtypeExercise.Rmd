@@ -1,0 +1,113 @@
+---
+title: "Covtype Exercise"
+output:   
+  github_document:
+    toc: true
+    toc_depth: 3
+---
+
+```{r}
+covtype <- read.csv(file="Data/covtype.data", header=FALSE, sep=",", stringsAsFactors=FALSE)
+head(covtype,n = 2)
+```
+
+
+```{r}
+
+# "Fixed" attributes' names
+names <- c("Elevation","Aspect","Slope","HorDistToHydro","VertDistToHydro",
+           "HorDistRoad","Hillshade09","Hillshade12","Hillshade15",
+           "HorDistFire")
+# Four binary attributes for wilderness areas:
+names <- c(names,"WA_RWA","WA_NWA","WA_CPWA","WA_CLPWA")
+# 40 (!) binary attributes for soil types:
+names <- c(names,sprintf("ST%02d",1:40))
+# The cover type
+names <- c(names,"Class")
+# Assign these names to the attributes
+names(covtype) <- names
+# Let's also assign labels to the coverage types.
+covtype$Class <- as.factor(covtype$Class)
+levels(covtype$Class) <- c("Spruce/Fir", "Lodgepole Pine",
+                           "Ponderosa Pine","Cottonwood/Willow","Aspen",
+                           "Douglas-fir","Krummholz")
+# How does it looks like?
+str(covtype)
+
+```
+
+
+
+```{r}
+# Which are the columns we want to consider?
+searchOn <- c("WA_RWA","WA_NWA","WA_CPWA","WA_CLPWA")
+# Get the index of each WA_
+indexOfWA <- apply(covtype[,searchOn], 1, function(x) which(x == 1))
+# Convert it to a factor with the column names we used.
+factorOfWA <- factor(indexOfWA,labels = searchOn)
+# Add it to the data frame
+covtype$WildArea <- factorOfWA
+# Drop the binary variables we don't need anymore
+covtype[searchOn] <- list(NULL)
+```
+
+
+```{r}
+# Which are the columns we want to consider?
+searchOn <- sprintf("ST%02d",1:40)
+
+# Get the index of 1 in ST01..ST40
+indexOfST <- apply(covtype[,searchOn], 1, function(x) which(x == 1))
+# Convert it to a factor with the column names we used.
+factorOfST <- factor(indexOfST,labels = searchOn)
+# Add it to the data frame
+covtype$SoilType <- factorOfST
+# Drop the binary variables we don't need anymore
+covtype[searchOn] <- list(NULL)
+str(covtype)
+```
+
+
+As descrições de tipo de solo podem ser encontradas  [aqui](https://archive.ics.uci.edu/ml/machine-learning-databases/covtype/covtype.info). A tabela com esses dados foi extraída e convertida em um csv. A primeira coluna indica o SoilType e a segunda coluna o *USFS ELU Code*. No *USFS ELU Code*, o primeiro digito representa a zona climática e o segundo a zona geológica. Esses dados também estão aqui [aqui](https://archive.ics.uci.edu/ml/machine-learning-databases/covtype/covtype.info) e foram extraídos para dois arquivos climatic_zone.csv e geologic_zone.csv, respectivamente.
+
+```{r}
+soilTypeDesc <- read.csv(file="Data/Soil_Types_Description.csv", header=FALSE, sep=",", stringsAsFactors=FALSE)
+names(soilTypeDesc) <- c("SoilType","USFS_ELU_CODE")
+head(soilTypeDesc, n=5)
+climaticZones  <- read.csv(file="Data/climatic_zones.csv", header=FALSE, sep=",", stringsAsFactors=TRUE)
+names(climaticZones) <- c("Digit","ClimaticZone")
+head(climaticZones, n=5)
+geologicZones  <- read.csv(file="Data/geologic_zones.csv", header=FALSE, sep=",", stringsAsFactors=TRUE)
+names(geologicZones) <- c("Digit","GeologicZone")
+head(geologicZones, n=5)
+
+soilTypeDesc$ClimateZone <- climaticZones$ClimaticZone[as.integer(soilTypeDesc$USFS_ELU_CODE/1000)]
+soilTypeDesc$GeologicZone <- geologicZones$GeologicZone[as.integer((soilTypeDesc$USFS_ELU_CODE - as.integer(soilTypeDesc$USFS_ELU_CODE/1000)*1000)/100)
+]
+
+head(soilTypeDesc, n=5)
+
+```
+
+
+```{r}
+
+covtype$ClimateZone <- soilTypeDesc$ClimateZone[as.integer(covtype$SoilType)]
+
+covtype$GeologicZone <- soilTypeDesc$GeologicZone[as.integer(covtype$SoilType)]
+
+head(covtype[c(13,14,15)], n=5)
+```
+
+
+```{r}
+str(covtype)
+```
+
+Olhando os dados:
+
+```{r,  results='asis'}
+library(xtable)
+tabCZ <- table(covtype$ClimateZone,covtype$WildArea)
+print(xtable(tabCZ), type="html")
+```

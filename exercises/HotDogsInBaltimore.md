@@ -66,6 +66,11 @@ Cria diretorio para guardar dados temporarios
 ``` r
 orig <- getwd()
 setwd(homeDir)
+```
+
+    ## Error in setwd(homeDir): cannot change working directory
+
+``` r
 if (!file.exists(tempDir)) {
       dir.create(tempDir)  
 }
