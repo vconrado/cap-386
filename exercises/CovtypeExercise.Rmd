@@ -5,7 +5,7 @@ output:
     toc: true
     toc_depth: 3
 ---
-
+# Carregando e preparando os dados 
 ```{r}
 covtype <- read.csv(file="Data/covtype.data", header=FALSE, sep=",", stringsAsFactors=FALSE)
 head(covtype,n = 2)
@@ -67,6 +67,7 @@ covtype[searchOn] <- list(NULL)
 str(covtype)
 ```
 
+# Exercício: convertendo soiltype e para climaticZone e GeologicZone
 
 As descrições de tipo de solo podem ser encontradas  [aqui](https://archive.ics.uci.edu/ml/machine-learning-databases/covtype/covtype.info). A tabela com esses dados foi extraída e convertida em um csv. A primeira coluna indica o SoilType e a segunda coluna o *USFS ELU Code*. No *USFS ELU Code*, o primeiro digito representa a zona climática e o segundo a zona geológica. Esses dados também estão aqui [aqui](https://archive.ics.uci.edu/ml/machine-learning-databases/covtype/covtype.info) e foram extraídos para dois arquivos climatic_zone.csv e geologic_zone.csv, respectivamente.
 
@@ -110,4 +111,10 @@ Olhando os dados:
 library(xtable)
 tabCZ <- table(covtype$ClimateZone,covtype$WildArea)
 print(xtable(tabCZ), type="html")
+```
+
+Salvando os dados:
+
+```{r}
+save(covtype, file = "Data/covtype.RData")
 ```

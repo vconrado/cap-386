@@ -1,6 +1,12 @@
 Covtype Exercise
 ================
 
+-   [Carregando e preparando os dados](#carregando-e-preparando-os-dados)
+-   [Exercício: convertendo soiltype e para climaticZone e GeologicZone](#exercício-convertendo-soiltype-e-para-climaticzone-e-geologiczone)
+
+Carregando e preparando os dados
+================================
+
 ``` r
 covtype <- read.csv(file="Data/covtype.data", header=FALSE, sep=",", stringsAsFactors=FALSE)
 head(covtype,n = 2)
@@ -141,6 +147,9 @@ str(covtype)
     ##  $ WildArea       : Factor w/ 4 levels "WA_RWA","WA_NWA",..: 1 1 1 1 1 1 1 1 1 1 ...
     ##  $ SoilType       : Factor w/ 40 levels "ST01","ST02",..: 29 29 12 30 29 29 29 29 29 29 ...
 
+Exercício: convertendo soiltype e para climaticZone e GeologicZone
+==================================================================
+
 As descrições de tipo de solo podem ser encontradas [aqui](https://archive.ics.uci.edu/ml/machine-learning-databases/covtype/covtype.info). A tabela com esses dados foi extraída e convertida em um csv. A primeira coluna indica o SoilType e a segunda coluna o *USFS ELU Code*. No *USFS ELU Code*, o primeiro digito representa a zona climática e o segundo a zona geológica. Esses dados também estão aqui [aqui](https://archive.ics.uci.edu/ml/machine-learning-databases/covtype/covtype.info) e foram extraídos para dois arquivos climatic\_zone.csv e geologic\_zone.csv, respectivamente.
 
 ``` r
@@ -242,7 +251,7 @@ print(xtable(tabCZ), type="html")
 ```
 
 <!-- html table generated in R 3.4.1 by xtable 1.8-2 package -->
-<!-- Fri Aug 18 10:55:08 2017 -->
+<!-- Fri Aug 25 10:48:31 2017 -->
 <table border="1">
 <tr>
 <th>
@@ -397,3 +406,8 @@ subalpine
 </td>
 </tr>
 </table>
+Salvando os dados:
+
+``` r
+save(covtype, file = "Data/covtype.RData")
+```
