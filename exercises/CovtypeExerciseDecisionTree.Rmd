@@ -1,0 +1,117 @@
+---
+title: "Covtype: Decision Tree"
+output:   
+  github_document:
+    toc: true
+    toc_depth: 3
+---
+
+Lendos os dados:
+
+```{r}
+load("Data/covtype.RData")
+str(covtype)
+```
+
+Pegando uma amostra dos dados:
+
+```{r}
+#install.packages("C50")
+library(C50)
+rows <- nrow(covtype)
+covtypeSample <- covtype[sample(rows,rows/100), ]
+str(covtypeSample)
+```
+
+Primeira árvore de decisão (Tudo):
+
+```{r}
+modelCT <- C5.0(Class ~ ., data=covtypeSample, control = C5.0Control(noGlobalPruning = TRUE, minCases=1))
+#plot(modelCT, main="C5.0 Decision Tree - Unpruned, min=1")
+summary(modelCT)
+```
+
+Sem o SoilType:
+
+```{r}
+covtypeSampleWithoutSoilType <- covtypeSample
+covtypeSampleWithoutSoilType$SoilType <- NULL
+modelCT <- C5.0(Class ~ ., data=covtypeSampleWithoutSoilType, control = C5.0Control(noGlobalPruning = TRUE, minCases=1))
+#plot(modelCT50, main="C5.0 Decision Tree - Unpruned, min=1")
+summary(modelCT)
+```
+
+Separando por WildArea:
+
+1. WildArea WA_RWA
+
+```{r}
+# bar <- subset(foo, location == "there")
+covtype_WA_RWA = subset(covtype, covtype$WildArea == "WA_RWA")
+rows <- nrow(covtype_WA_RWA)
+covtypeSample_WA_RWA <- covtype_WA_RWA[sample(rows,rows/100), ]
+
+covtypeSample_WA_RWA$WildArea <- NULL
+modelCT <- C5.0(Class ~ ., data=covtypeSample_WA_RWA, control = C5.0Control(noGlobalPruning = TRUE, minCases=1))
+#plot(modelCT50, main="C5.0 Decision Tree - Unpruned, min=1")
+summary(modelCT)
+```
+
+
+
+2. WildArea WA_NWA
+
+```{r}
+# bar <- subset(foo, location == "there")
+covtype_WA_NWA = subset(covtype, covtype$WildArea == "WA_NWA")
+rows <- nrow(covtype_WA_NWA)
+covtypeSample_WA_NWA <- covtype_WA_NWA[sample(rows,rows/100), ]
+
+covtypeSample_WA_NWA$WildArea <- NULL
+modelCT <- C5.0(Class ~ ., data=covtypeSample_WA_NWA, control = C5.0Control(noGlobalPruning = TRUE, minCases=1))
+#plot(modelCT50, main="C5.0 Decision Tree - Unpruned, min=1")
+summary(modelCT)
+```
+
+
+
+
+3. WildArea WA_CPWA
+
+```{r}
+covtype_WA_CPWA = subset(covtype, covtype$WildArea == "WA_CPWA")
+rows <- nrow(covtype_WA_CPWA)
+covtypeSample_WA_CPWA <- covtype_WA_CPWA[sample(rows,rows/100), ]
+
+covtypeSample_WA_NWA$WildArea <- NULL
+modelCT <- C5.0(Class ~ ., data=covtypeSample_WA_CPWA, control = C5.0Control(noGlobalPruning = TRUE, minCases=1))
+#plot(modelCT50, main="C5.0 Decision Tree - Unpruned, min=1")
+summary(modelCT)
+```
+
+
+4. WildArea WA_CLPWA
+
+```{r}
+covtype_WA_CLPWA = subset(covtype, covtype$WildArea == "WA_CLPWA")
+rows <- nrow(covtype_WA_CLPWA)
+covtypeSample_WA_CLPWA <- covtype_WA_CLPWA[sample(rows,rows/100), ]
+
+covtypeSample_WA_CLPWA$WildArea <- NULL
+modelCT <- C5.0(Class ~ ., data=covtypeSample_WA_CLPWA, control = C5.0Control(noGlobalPruning = TRUE, minCases=1))
+#plot(modelCT50, main="C5.0 Decision Tree - Unpruned, min=1")
+summary(modelCT)
+```
+
+
+# Dados do Rafael Santos
+
+```{r}
+#install.packages("C50")
+library(C50)
+load('Data/CovType2.R')
+rows <- nrow(covtype)
+covtype <- covtype[sample(rows,rows/100), ]
+modelCT <- C5.0(Class ~ ., data=covtype, control = C5.0Control(noGlobalPruning = TRUE,minCases=1))
+plot(modelCT, main="C5.0 Decision Tree - Unpruned, min=1")
+```
