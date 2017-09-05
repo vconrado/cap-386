@@ -1,0 +1,27 @@
+iquery -a -q "list('arrays')";
+
+iquery -a -q "create array rpth_1d_2016  <risk:float,precipitation:float,temperature:float,humidity:float>  [i=0:1679999,1680000,0];"
+
+iquery -a -q "create array rpth  <risk:float,precipitation:float,temperature:float,humidity:float>  [col_id=0:1199,50,0,row_id=0:1399,50,0,time_id=0:*,366,0];"
+
+
+iquery -a -q "remove(rpth_1d_2016)";
+
+iquery -a -q "remove(rpth_2016)";
+
+
+iquery -a -q "set no fetch; load(rpth_1d_2016,'/home/scidb/Data/queimadas/scidb/20160102.scidb',-2,'(float,float,float,float)')";
+
+
+
+iquery -a -q "set no fetch; insert(redimension(apply(rpth_1d_2016, col_id, i%1200, row_id, i/1200, time_id, 1), rpth_2016), rpth_2016);"
+
+
+
+iquery -a -q "create array rpth  <risk:float,precipitation:float,temperature:float,humidity:float>  [col_id=0:1199,0,50,row_id=0:1399,0,50,time_id=0:*,0,366];"
+
+
+
+create array chunk_test  <v:uint16>  [x=0:3,2,0,y=0:3,2,0,t=0:3,2,0];
+store(build(<v:uint16> [x=0:3,2,0,y=0:3,2,0,t=0:3,2,0],1+x+4*y+16*t), chunk_test);
+save(chunk_test,'/tmp/chunk_test.scidb',-2,'(uint8)');  

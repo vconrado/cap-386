@@ -1,0 +1,25 @@
+O site oficial do gerenciador de plugin do scidb é:
+  https://github.com/Paradigm4/dev_tools
+
+Baixe e compile o plugin:
+  cd ~/Devel
+
+  git clone https://github.com/Paradigm4/dev_tools.git
+
+  cd dev_tools
+
+  make
+
+Copie o plugin para a pasta do SciDB:
+  sudo cp *.so /opt/scidb/15.12/lib/scidb/plugins
+
+Os plugins serão instalados via dev_tools através do usuário scidb (cosultas afl), de forma que será necessário que o usuário scidb tenha acesso irrestrito a pasta /opt/scidb/15.12/lib/scidb/plugins:
+
+  sudo chown -R scidb:scidb /opt/scidb/15.12/lib/scidb/plugins
+
+Habilite o plugin:
+  iquery -aq "load_library('dev_tools')"
+
+
+
+

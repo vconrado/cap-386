@@ -1,0 +1,71 @@
+Projeto: Avaliação Queima cana de açúcar
+- Queima cana de acúçar
+- Foco de calor
+- NDVI
+
+Relacionar eventos
+
+Dr. Fabiano
+Quer fazer um tipo de monitoramento
+
+- Girar o ciclo até "build data product"
+- Tentar rodar novamente o ciclo até EDA ...
+
+
+
+
+- Visualizar dados
+- Avaliar média, std, etc
+
+- LANDSAT 8
+- Focos de Fogo
+- Risco, Solo, etc
+
+
+É um problema de Classificação?
+Clustering?
+
+SOM com as séries temporaris ?
+
+SOM + Dendogramas
+
+Associtation Rules
+
+
+
+# Extraindo bbox dos dados landsat8
+
+
+ds_src = gdal.Open(landSat8File)
+width = ds_src.RasterXSize
+height = ds_src.RasterYSize
+gt = ds_src.GetGeoTransform()
+minx = gt[0]
+miny = gt[3] + width*gt[4] + height*gt[5]
+maxx = gt[0] + width*gt[1] + height*gt[2]
+maxy = gt[3]
+
+ds_dst = gdal.Open('/home/vconrado/Documents/dados/queimadas/221_074_2016/nuvens/221_074_2016-01-11_nuvem.tif')
+
+old_cs= osr.SpatialReference()
+old_cs.ImportFromWkt(ds_src.GetProjectionRef())
+
+new_cs= osr.SpatialReference()
+new_cs.ImportFromWkt(ds_dst.GetProjectionRef())
+
+transform = osr.CoordinateTransformation(old_cs,new_cs)
+
+latlong_min = transform.TransformPoint(minx,miny)
+latlong_max = transform.TransformPoint(maxx,maxy)
+
+
+print latlong_min
+print latlong_max
+
+# ulx uly lrx lry:
+bbox = [latlong_min[0], latlong_max[1], latlong_max[0], latlong_min[1]];
+
+print "({}, {});  ({}, {})".format(bbox[1], miny, maxx, maxy)
+
+ds = gdal.Translate('/home/vconrado/Documents/dados/queimadas/221_074_2016/nuvens/221_074_2016-01-11_nuvem_cut.tif', ds, projWin = bbox, projWinSRS = ds.GetProjectionRef())
+#ds = None

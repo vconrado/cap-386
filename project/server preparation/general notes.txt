@@ -1,0 +1,2 @@
+~/R/x86_64-pc-linux-gnu-library/3.4
+essa pasta está sendo criada pois os pacotes do SITS estão sendo instalados nela

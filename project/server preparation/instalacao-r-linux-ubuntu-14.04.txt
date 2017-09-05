@@ -1,0 +1,14 @@
+Instalacao r-base e r-base-dev: https://cran.r-project.org/
+-----------------------------------------------------------
+
+sudo sh -c 'echo "deb https://cran.uni-muenster.de/bin/linux/ubuntu trusty/" >> /etc/apt/sources.list'
+
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9
+
+sudo apt-get update
+
+sudo apt-get install r-base r-base-dev
+
+Verificar a versão instalada:
+R --version
+

@@ -1,0 +1,32 @@
+Dependência: instalação do dev_tools (conforme roteiro).
+
+O site oficial do stream é:
+  https://github.com/Paradigm4/stream
+
+Instalando o plugin:
+  iquery -aq "install_github('paradigm4/stream', 'd3f5393e5a9a8eba6f8ff777105ef031f48e3d3d');"
+
+Veja se encontra-se instalado:
+  ls -l  /opt/scidb/15.12/lib/scidb/plugins
+
+Carregue o plugin:
+  iquery -aq "load_library('stream');"
+
+Testando a instalação:
+  iquery -aq "stream(filter(build(<val:double>[i=0:0,1,0],0),false), 'printf \"1\nWhat is up?\n\"')"
+
+
+Outros testes para o TWDTW:
+
+
+iquery -aq "stream(build(<val:double> [i=1:5,5,0], i), 'Rscript /home/scidb/shared/scidb15_12/scripts/test_twdtw/R_script.R', 'format=df', 'types=double')"
+
+iquery -aq "stream(build(<val:double> [i=1:5,5,0], i), 'Rscript /home/scidb/shared/scidb15_12/scripts/test_twdtw/R_sum.R', 'format=df', 'types=double')"
+
+iquery -aq "unload_library('stream')"
+
+sudo rm -rf /opt/scidb/15.12/lib/scidb/plugins/libstream.so
+
+scidb.py stopall eodb
+
+scidb.py startall eodb
