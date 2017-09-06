@@ -1,6 +1,6 @@
 #!/bin/bash
 # PATHs
-BASE_PATH="/home/vconrado/Documents/dados/queimadas"
+BASE_PATH="/home/scidb/Data/queimadas"
 
 
 # Queimadas
