@@ -1,0 +1,21 @@
+---
+title: "Class 4"
+output:   
+  github_document:
+    toc: true
+    toc_depth: 3
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+url <- "https://archive.ics.uci.edu/ml/machine-learning-databases/wine/wine.data"
+download.file(url,destfile = "./TempData/wine.csv",method="curl")
+if (file.exists("./TempData/wine.csv")){
+  tam <- file.info("./TempData/wine.csv")$size
+  paste("File downloaded, ",tam," bytes")
+} else {
+  "Error downloading file!"
+}
