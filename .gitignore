@@ -4,3 +4,12 @@ lecture-notes/*.pdf
 .Rhistory
 .RData
 .Ruserdata
+chunkfier/chunkfier
+chunkfier/chunkfier
+focos2raster/tif/
+.idea
+interleaver/file1
+interleaver/file2
+interleaver/interleaver
+
+.ipynb_checkpoints/
